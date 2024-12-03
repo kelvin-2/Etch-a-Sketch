@@ -8,18 +8,22 @@
     <script src="main.js"></script>
 </head>
 <body>
-    <h1> Etch-A-Sketch</h1>
-    <div class="header" >
-     <h2>Select the size </h2>
-     <button id =popup>Select</button
-    </div>
-    <div class="board">
-
-    </div>
-    <div class="footer">
-        <button>black</button>
-        <button>Random</button>
-        <button>Rest</button>
-    </div>
+  <div id="input-container">
+    <input type="number"
+    id="rows-input"
+    class="grid-input"
+    placeholder="Number of rows"
+    min="1"
+    max="20">
+    <input 
+    type="number"
+    id="cols-input"
+    class="grid-input"
+    placeholder="number of columns"
+    min="1"
+    max="20">
+    <button id="generate-btn" class="generate-btn">Generte Grid</button>
+  </div>
+  <div id="grid-container"></div>
 </body>
 </html>
