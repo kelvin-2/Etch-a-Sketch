@@ -3,27 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Etch-Sketch</title>
-    <link rel="stylesheet" href="styles.css"
-    <script src="main.js"></script>
+    <title>Etch-A-Sketch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        #controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        #grid-container {
+            width: 960px;
+            height: 960px;
+            display: flex;
+            flex-wrap: wrap;
+            border: 1px solid #ddd;
+        }
+
+        .grid-square {
+            box-sizing: border-box;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+        }
+
+        #reset-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #reset-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-  <div id="input-container">
-    <input type="number"
-    id="rows-input"
-    class="grid-input"
-    placeholder="Number of rows"
-    min="1"
-    max="20">
-    <input 
-    type="number"
-    id="cols-input"
-    class="grid-input"
-    placeholder="number of columns"
-    min="1"
-    max="20">
-    <button id="generate-btn" class="generate-btn">Generte Grid</button>
-  </div>
-  <div id="grid-container"></div>
+    <div id="controls">
+        <button id="reset-btn">Reset Grid</button>
+    </div>
+    <div id="grid-container"></div>
+
+    <script>
+        // Get references to DOM elements
+        const gridContainer = document.getElementById('grid-container');
+        const resetBtn = document.getElementById('reset-btn');
+
+        // Function to create grid
+        function createGrid(gridSize = 16) {
+            // Clear existing grid
+            gridContainer.innerHTML = '';
+
+            // Calculate square size based on container width
+            const squareSize = 960 / gridSize;
+
+            // Create grid squares
+            for (let i = 0; i < gridSize * gridSize; i++) {
+                const gridSquare = document.createElement('div');
+                gridSquare.classList.add('grid-square');
+                gridSquare.style.width = `${squareSize}px`;
+                gridSquare.style.height = `${squareSize}px`;
+
+                // Add hover effect with progressive darkening
+                let darkeningLevel = 0;
+                gridSquare.addEventListener('mouseover', () => {
+                    // Generate random RGB color
+                    const r = Math.floor(Math.random() * 256);
+                    const g = Math.floor(Math.random() * 256);
+                    const b = Math.floor(Math.random() * 256);
+
+                    // Increase darkening with each interaction
+                    darkeningLevel = Math.min(darkeningLevel + 0.1, 1);
+
+                    // Set background with random color and progressive darkening
+                    gridSquare.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${darkeningLevel})`;
+                });
+
+                gridContainer.appendChild(gridSquare);
+            }
+        }
+
+        // Reset button functionality
+        resetBtn.addEventListener('click', () => {
+            // Prompt user for grid size with validation
+            let gridSize = prompt('Enter number of squares per side (max 100):');
+            
+            // Convert to number and validate
+            gridSize = parseInt(gridSize);
+
+            if (isNaN(gridSize) || gridSize < 1 || gridSize > 100) {
+                alert('Please enter a valid number between 1 and 100');
+                return;
+            }
+
+            // Create new grid
+            createGrid(gridSize);
+        });
+
+        // Initial grid creation
+        createGrid();
+    </script>
 </body>
 </html>
